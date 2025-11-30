@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copypasta Cup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chau+Philomene+One:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #000000;
+            --accent: #1DA1F2; /* X Blue */
+            --dark: #222;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+  font-family: "Chau Philomene One", sans-serif;
+        }
+
+        body {
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #f4f4f4;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* Split Section: Form Left, Logo Right */
+        .split-section {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 40px;
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-side {
+            flex: 1;
+        }
+
+        .logo-side {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-side img {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px; /* Big logo */
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #444;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #fff;
+        }
+
+        .form-group textarea {
+            resize: none;
+            height: 70px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* The Board (Notes) */
+        .board-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .live-dot {
+            color: #e0245e;
+            font-size: 0.8rem;
+            animation: blink 2s infinite;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Exactly 2 columns */
+            gap: 20px;
+        }
+
+        .note {
+            background-color: #ffffff; /* White notes */
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: popIn 0.5s ease-out; /* Pop in animation */
+        }
+
+        .note:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .note h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .note-body {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #444;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            white-space: pre-wrap; /* Keeps formatting */
+        }
+
+        .note-footer {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .vote-count {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .x-link {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Cursor effect for typing */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .split-section {
+                flex-direction: column-reverse;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        
+        <header>
+            <h1>Copypasta Cup</h1>
+            <p>Write pasta. Win internet points. Don't be weird.</p>
+        </header>
+
+        <section class="split-section">
+            <!-- Form on Left -->
+            <div class="form-side">
+                <form id="submitForm">
+                    <div class="form-group">
+                        <label>User Handle</label>
+                        <input type="text" id="inputHandle" placeholder="@yourname" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="inputTitle" placeholder="Title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Content</label>
+                        <textarea id="inputContent" placeholder="Paste text here..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Enter Cup</button>
+                </form>
+            </div>
+
+            <!-- Logo on Right -->
+            <div class="logo-side">
+                <img src="Emigrate.png" alt="Copypasta Cup Logo">
+            </div>
+        </section>
+
+        <!-- The Board -->
+        <div class="board-title">
+            Latest Entries
+            <span class="live-dot">● LIVE</span>
+        </div>
+
+        <div class="grid" id="grid">
+            <!-- Note 1 -->
+            <div class="note">
+                <h3>DEV</h3>
+                <div class="note-body">Bruh we made it trenches</div>
+                <div class="note-footer">
+                    <span>@DEV</span>
+                    <span class="vote-count">2 Votes</span>
+                                        <a href="#" class="x-link">n</a>
+
+                </div>
+            </div>
+
+            <!-- Note 2 -->
+            <div class="note">
+                <h3>fsddf</h3>
+                <div class="note-body">this works??? saasd2</div>
+                <div class="note-footer">
+                    <span>@nigga</span>
+                    <span class="vote-count">1 Votes</span>
+                    <a href="#" class="x-link">n</a>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+
+    <script>
+        document.getElementById('submitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get values
+            const handle = document.getElementById('inputHandle').value;
+            const title = document.getElementById('inputTitle').value;
+            const content = document.getElementById('inputContent').value;
+            const grid = document.getElementById('grid');
+
+            // Create new note element
+            const newNote = document.createElement('div');
+            newNote.className = 'note';
+            
+            // Construct inner HTML
+            newNote.innerHTML = `
+                <h3>${title}</h3>
+                <div class="note-body typing-cursor"></div>
+                <div class="note-footer">
+                    <span>${handle}</span>
+                    <span class="vote-count">0 Votes</span>
+                    <a href="#" class="x-link">View on X</a>
+                </div>
+            `;
+
+            // Add new note to the top of the grid
+            grid.prepend(newNote);
+
+            // Clear form
+            document.getElementById('submitForm').reset();
+
+            // Typewriter Effect
+            const bodyDiv = newNote.querySelector('.note-body');
+            let i = 0;
+            const speed = 30; // Typing speed in ms
+
+            function typeWriter() {
+                if (i < content.length) {
+                    bodyDiv.textContent += content.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    // Remove cursor effect when done
+                    bodyDiv.classList.remove('typing-cursor');
+                }
+            }
+
+            // Start typing
+            typeWriter();
+        });
+    </script>
+
+</body>
+</html>
